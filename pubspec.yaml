@@ -39,6 +39,10 @@ dependencies:
   path_provider: ^2.0.15
   google_fonts: ^6.3.2
   easy_localization: ^3.0.8
+  get_it: ^8.3.0
+  dio: ^5.9.0
+  shared_preferences: ^2.5.3
+  flutter_secure_storage: ^4.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,7 @@
 {
   "greeting": "नमस्ते, दुनिया!",
   "button_text": "मुझे क्लिक करें",
-  "change_language": "भाषा बदलें"
+  "change_language": "भाषा बदलें",
+  "app_title": " स्थानीयकरण डेमो"
+
 }
