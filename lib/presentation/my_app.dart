@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:expense_tracker/core/localization/app_localization.dart';
 import 'package:expense_tracker/core/theme/app_theme.dart';
+import 'package:expense_tracker/presentation/home/view/screen/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,37 +16,16 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.light,
       // darkTheme: AppTheme.dark,
       themeMode: AppTheme.themeMode,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "App Theme Demo",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Hello Theme!",
-                style: Theme.of(context).textTheme.displayLarge, // big bold text
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "This is bodyMedium text",
-                style: Theme.of(context).textTheme.bodyMedium, // regular paragraph
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Secondary label example",
-                style: Theme.of(context).textTheme.labelLarge, // button or small label
-              ),
-            ],
-          ),
-        ),
-      ),
+
+      //  Localization setup
+      supportedLocales: AppLocalization.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
+      locale: context.locale,
+      home: HomeScreen(),
 
     );
 
   }
+
+
 }

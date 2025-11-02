@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:expense_tracker/core/localization/app_localization.dart';
 import 'package:expense_tracker/data/local/database/floor_database_helper.dart';
 import 'package:expense_tracker/presentation/my_app.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +9,11 @@ void main()  async{
 
 WidgetsFlutterBinding.ensureInitialized();
   await FloorDatabaseHelper().callDatabase;
+   await EasyLocalization.ensureInitialized();
 
 
-  runApp(const MyApp());
+
+   runApp(AppLocalization.init(const MyApp()));
 }
 
 
