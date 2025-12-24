@@ -1,5 +1,5 @@
 import 'package:expense_tracker/data/local/dao/expense_dao.dart';
-import 'package:expense_tracker/data/models/expense_model.dart';
+import 'package:expense_tracker/data/local/models/expense_model.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'dart:async';

@@ -1,4 +1,4 @@
-import 'package:expense_tracker/data/models/expense_model.dart';
+import 'package:expense_tracker/data/local/models/expense_model.dart';
 import 'package:floor/floor.dart';
 
 @dao

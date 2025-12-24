@@ -1,3 +1,4 @@
+import 'package:expense_tracker/data/remote/apis/post_api_service.dart';
 import 'package:expense_tracker/data/remote/network/dio/configs/dio_configs.dart';
 import 'package:expense_tracker/data/remote/network/dio/dio_client.dart';
 import 'package:expense_tracker/data/remote/network/dio/interceptors/auth_interceptor.dart';
@@ -32,5 +33,8 @@ mixin RemoteModule {
 
     getIt.registerSingleton<DioClient>(dioClient);
     getIt.registerSingleton<Dio>(dioClient.dio);
-  }
+
+    // api's:-------------------------------------------------------------------
+    // Register PostApiService with injected DioClient
+    getIt.registerSingleton<PostApiService>(PostApiService(getIt<DioClient>()));  }
 }
