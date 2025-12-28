@@ -1,30 +1,29 @@
-// lib/data/remote/repositories/post_repository_impl.dart
-
 import 'package:dartz/dartz.dart';
-import 'package:expense_tracker/data/remote/apis/post_api_service.dart';
+import 'package:dio/dio.dart';
+import 'package:expense_tracker/core/network/dio_failure_mapper.dart';
+import 'package:expense_tracker/core/network/error.dart';
+import 'package:expense_tracker/data/local/data_source/post_local_data_source.dart';
+import 'package:expense_tracker/data/mapper/post_mapper.dart';
+import 'package:expense_tracker/data/remote/data_source%20/post_remote_data_source.dart';
 import 'package:expense_tracker/domain/entity/post_entity.dart';
 import 'package:expense_tracker/domain/repository/post_repository.dart';
 
 class PostRepositoryImpl implements PostRepository {
-  final PostApiService postApiService;
+  final PostRemoteDataSource remote;
+  final PostLocalDataSource local;
 
-  PostRepositoryImpl({required this.postApiService});
+  PostRepositoryImpl({required this.remote, required this.local});
 
   @override
-  Future<Either<String, List<PostEntity>>> fetchPosts() async {
-    // Fetch posts from API (returns Either<String, List<PostModel>>)
-    final eitherResult = await postApiService.fetchPosts();
+  Future<Either<Failure, List<PostEntity>>> fetchPosts() async {
+    try {
+      final remotePosts = await remote.fetchPosts();
 
-    // Map PostModel -> PostEntity using fold
-    return eitherResult.fold(
-      // Left case (error)
-          (error) => Left(error),
+      await local.cachePosts(remotePosts.map((e) => e.toDbModel()).toList());
 
-      // Right case (success)
-          (postModels) {
-        final postEntities = postModels.map((post) => post.toEntity()).toList();
-        return Right(postEntities);
-      },
-    );
+      return Right(remotePosts.map((e) => e.toEntity()).toList());
+    } on DioException catch (e) {
+      return Left(DioFailureMapper.map(e));
+    }
   }
 }

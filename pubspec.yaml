@@ -42,11 +42,12 @@ dependencies:
   get_it: ^8.3.0
   dio: ^5.9.0
   shared_preferences: ^2.5.3
-  flutter_secure_storage: ^4.2.1
+  flutter_secure_storage: ^10.0.0
   dartz: ^0.10.1
   equatable: ^2.0.7
   flutter_bloc: ^9.1.1
   bloc: ^9.1.0
+  internet_connection_checker_plus: ^2.9.1+2
 
 dev_dependencies:
   flutter_test:

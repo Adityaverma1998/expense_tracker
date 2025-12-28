@@ -4,6 +4,8 @@ class SharedPrefHelper {
   static const String _keyAuthToken = 'auth_token';
   static const String _keyIsLoggedIn = 'is_logged_in';
 
+  SharedPrefHelper(SharedPreferences sharedPreferences);
+
   /// Save any string value
   static Future<void> saveString(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -49,6 +51,4 @@ class SharedPrefHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_keyIsLoggedIn) ?? false;
   }
-
-
 }

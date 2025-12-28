@@ -1,15 +1,29 @@
-import 'package:expense_tracker/data/remote/apis/post_api_service.dart';
-import 'package:expense_tracker/domain/entity/post_entity.dart';
+import 'package:expense_tracker/data/local/dao/post_dao.dart';
+import 'package:expense_tracker/data/local/data_source/post_local_data_source.dart';
+import 'package:expense_tracker/data/remote/data_source%20/post_remote_data_source.dart';
+import 'package:expense_tracker/data/remote/network/dio/dio_client.dart';
+import 'package:expense_tracker/data/repositries_impl/post_repository_impl.dart';
+import 'package:expense_tracker/di/serivce_locator.dart';
 import 'package:expense_tracker/domain/repository/post_repository.dart';
 
-class PostRepositoryImpl implements PostRepository {
-  final PostApiService apiService;
+mixin RepositoryModule {
+  static Future<void> configureRepositoryModuleInjection() async {
+    // Remote DataSource
+    getIt.registerLazySingleton<PostRemoteDataSource>(
+      () => PostRemoteDataSourceImpl(getIt<DioClient>()),
+    );
 
-  PostRepositoryImpl(this.apiService);
+    // Local DataSource
+    getIt.registerLazySingleton<PostLocalDataSource>(
+      () => PostLocalDataSourceImpl(getIt<PostDao>()),
+    );
 
-  @override
-  Future<List<PostEntity>> fetchPosts() async {
-    final response = await apiService.fetchPosts();
-    return response.map((e) => e.toEntity()).toList();
+    // Repository
+    getIt.registerLazySingleton<PostRepository>(
+      () => PostRepositoryImpl(
+        remote: getIt<PostRemoteDataSource>(),
+        local: getIt<PostLocalDataSource>(),
+      ),
+    );
   }
 }

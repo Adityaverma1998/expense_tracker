@@ -23,7 +23,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(status: PostStatus.failure, errorMessage: error));
+        emit(
+          state.copyWith(
+            status: PostStatus.failure,
+            errorMessage: error.message,
+          ),
+        );
       },
       (posts) {
         emit(state.copyWith(status: PostStatus.success, posts: posts));

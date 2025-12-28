@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
 
 typedef RetryEvaluator = FutureOr<bool> Function(DioError error);
@@ -10,7 +11,10 @@ class RetryInterceptor extends Interceptor {
   RetryInterceptor({required this.dio, this.options = const RetryOptions()});
 
   @override
-  Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     final extra = RetryOptions.fromExtra(err.requestOptions, options);
     final shouldRetry = extra.retries > 0 && await extra.retryEvaluator(err);
 
@@ -44,13 +48,16 @@ class RetryOptions {
     this.retryEvaluator = defaultRetryEvaluator,
   });
 
-  static FutureOr<bool> defaultRetryEvaluator(DioError error) =>
-      error.type != DioExceptionType.cancel && error.type != DioErrorType.badResponse;
+  static FutureOr<bool> defaultRetryEvaluator(DioException error) =>
+      error.type != DioExceptionType.cancel &&
+      error.type != DioExceptionType.badResponse;
 
   static const extraKey = 'cache_retry_request';
 
-  static RetryOptions fromExtra(RequestOptions request, RetryOptions defaults) =>
-      request.extra[extraKey] ?? defaults;
+  static RetryOptions fromExtra(
+    RequestOptions request,
+    RetryOptions defaults,
+  ) => request.extra[extraKey] ?? defaults;
 }
 
 extension RequestOptionsExt on RequestOptions {
