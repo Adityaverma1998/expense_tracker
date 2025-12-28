@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/network/network_info.dart';
 import 'package:expense_tracker/data/local/dao/post_dao.dart';
 import 'package:expense_tracker/data/local/data_source/post_local_data_source.dart';
 import 'package:expense_tracker/data/remote/data_source%20/post_remote_data_source.dart';
@@ -21,6 +22,7 @@ mixin RepositoryModule {
     // Repository
     getIt.registerLazySingleton<PostRepository>(
       () => PostRepositoryImpl(
+        networkInfo: getIt<NetworkInfo>(),
         remote: getIt<PostRemoteDataSource>(),
         local: getIt<PostLocalDataSource>(),
       ),
