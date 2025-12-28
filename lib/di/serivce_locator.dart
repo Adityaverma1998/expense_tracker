@@ -1,3 +1,5 @@
+import 'package:expense_tracker/domain/di/domain_layer_injection.dart';
+import 'package:expense_tracker/presentation/di/presentation_layer_injection.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -5,7 +7,7 @@ final getIt = GetIt.instance;
 mixin ServiceLocator {
   static Future<void> configureDependencies() async {
     // await DataLayerInjection.configureDataLayerInjection();
-    // await DomainLayerInjection.configureDomainLayerInjection();
-    // await PresentationLayerInjection.configurePresentationLayerInjection();
+    await DomainLayerInjection.configureDomainLayerInjection();
+    await PresentationLayerInjection.configurePresentationLayerInjection();
   }
 }
