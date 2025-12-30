@@ -17,7 +17,10 @@ class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
   }
 
   void _onStart(StartNetworkWatcher event, Emitter<NetworkState> emit) {
+    print('🟢 Network watcher started');
+
     _subscription ??= watcher.onStatusChange.listen((isConnected) {
+      print('🌐 Internet status changed: $isConnected');
       add(_NetworkStatusChanged(isConnected));
     });
   }
